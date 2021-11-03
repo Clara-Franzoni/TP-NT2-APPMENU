@@ -1,0 +1,108 @@
+<template>
+  <div id="app">
+    <div v-if="books.length">
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Comida</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+            <tr v-for-key="(item,index) in books">
+                <td>{{item.id}}</td>
+                <td>{{item.bookname}}</td>
+                <!--<td>{{item.price | showPrice}}</td>-->
+                <td>
+                    <button @click="decrement(index)" v-bind:disabled="item.count<=1">-</button>
+                    {{item.count}}
+                <button @click="increment(index)" >+</button>
+                </td>
+                <td><button @click="del(index)">Eliminar</button></td>
+            </tr>
+        <tbody></tbody>
+    </table>
+    <h2>Precio total: {{sum}}</h2>
+
+
+
+
+
+    </div>
+    <h2 v-else>El Carro de Compras está Vacío</h2>
+
+	<!-- Esto es un comentario
+	<label for="name">Comida: </label>
+	<input type="text" id="name" name="name" required
+       minlength="4" maxlength="8" size="10">
+	<label for="ing">Precio: </label>
+	<input type="text" id="ing" name="ing" required
+       minlength="4" maxlength="8" size="10">
+
+
+	<td><button @click="add()">Agregar</button></td>-->
+
+</div>
+</template>
+
+<script>
+export default {
+    name:'menu',
+    created: function () {
+        console.log("saludo")
+     },
+
+data() {
+    return{
+        books:[
+            {id:1,bookname:'Papa Fritas',price:15.00,count:0},
+            {id:2,bookname:'Cerveza',price:20.00,count:0},
+            {id:3,bookname:'Pizza',price:35.00,count:0},
+            {id:4,bookname:'Empanada',price:42.00,count:0},
+        ]
+    }
+
+    },
+    methods:{
+        increment(index){
+            console.log('---------increment'+index)
+            this.books[index].count++;
+        },
+        decrement(index){
+            //if (this.books[index].count==0) return;
+            console.log('---------decrement'+index)
+            this.books[index].count--;
+        },
+        del(index){
+            this.books.splice(index,1);
+        },
+		add(){
+         //   this.books.push({id:5,bookname:'XXX',pubdate:'2010-9',price:22.00,count:1});
+        },
+     },
+    //filters:{
+    //    showPrice(price){
+    //        return '$'+price.toFixed(2)
+    //    }
+    //},
+    computed:{
+        sum:{
+            get(){
+                let sum=0;
+                for (let book of this.books){
+                    sum+=book.count*book.price;
+                }
+                return '$ '+sum;
+            }
+        }
+    }
+
+}
+</script>
+
+<style>
+
+</style>
